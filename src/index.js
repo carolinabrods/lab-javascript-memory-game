@@ -88,6 +88,7 @@ window.addEventListener('load', event => {
           }, 1000);
         } else {
           // if the cards are the same, they stay
+          // ISSUE 1: the pairs guessed stay when found, but then are flipping too
           turnedCards.forEach(card => {
             card.classList.add('turned');
           });
@@ -95,9 +96,6 @@ window.addEventListener('load', event => {
 
         // reset pickedCards array
         memoryGame.pickedCards = [];
-
-        // ISSUE 1: the pairs guessed stay when found, but then are flipping too
-        // ISSUE 2: pairs clicked are always 2 when should be 1
 
         // update the score board
         memoryGame.updateScore();

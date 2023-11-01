@@ -56,3 +56,5 @@ class MemoryGame {
     guessed.innerTex = this.pairsGuessed;
   }
 }
+
+// ISSUE 2: pairs clicked are always 2 when should be 1
