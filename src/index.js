@@ -32,7 +32,7 @@ window.addEventListener('load', event => {
   event.preventDefault();
 
   // shuffle the cards
-  memoryGame.shuffleCards();
+  /* memoryGame.shuffleCards(); */
   console.log(memoryGame.cards);
 
   // generate HTML code for each card element
@@ -54,55 +54,65 @@ window.addEventListener('load', event => {
   document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', () => {
       console.log(`Card clicked: ${card}`);
+      // add turned to card class only if we have less than 2 cards picked
+      if (memoryGame.pickedCards.length < 2) {
+        card.classList.add('turned');
 
-      // add turned to card class
-      card.classList.add('turned');
-
-      // add clicked cards to picked cards array
-      const cardName = card.getAttribute('data-card-name');
-      memoryGame.pickedCards.push(cardName);
-      console.log(memoryGame.pickedCards);
+        // add clicked cards to picked cards array
+        const cardName = card.getAttribute('data-card-name');
+        memoryGame.pickedCards.push(cardName);
+        console.log(memoryGame.pickedCards);
+      }
 
       // get an array of all the turned cards
       const turnedCards = document.querySelectorAll('.turned');
       console.log(turnedCards);
 
-      // call checkIfPair once we pick 2 cards
-      if (memoryGame.pickedCards.length === 2) {
-        memoryGame.checkIfPair(
-          memoryGame.pickedCards[0],
-          memoryGame.pickedCards[1]
-        );
+      // get a variable of paircheck function
+      const checkFunction = memoryGame.checkIfPair(
+        memoryGame.pickedCards[0],
+        memoryGame.pickedCards[1]
+      );
 
-        // if cards are not the same, they flip again
-        if (
-          memoryGame.checkIfPair(
-            memoryGame.pickedCards[0],
-            memoryGame.pickedCards[1]
-          ) === false
-        ) {
-          setTimeout(() => {
-            turnedCards.forEach(card => {
-              card.classList.remove('turned');
-            });
-          }, 1000);
-        } else {
-          // if the cards are the same, they stay
-          // ISSUE 1: the pairs guessed stay when found, but then are flipping too
-          turnedCards.forEach(card => {
-            card.classList.add('turned');
-          });
-        }
+      // call checkIfPair if we pick 2 cards
+      if (checkFunction && memoryGame.pickedCards.length === 2) {
+        // if the cards are the same, they stay
+        turnedCards.forEach(card => {
+          card.classList.add('blocked');
+          card.classList.remove('turned');
+        });
 
         // reset pickedCards array
         memoryGame.pickedCards = [];
 
         // update the score board
         memoryGame.updateScore();
+
+        // check if the game finishes
+        memoryGame.endGame();
+
+        // ISSUE 1: the pairs guessed stay when found, but then are flipping too
+        // SOLVED
+
+        // if cards are not the same, they flip again
+      } else if (!checkFunction && memoryGame.pickedCards.length === 2) {
+        setTimeout(() => {
+          turnedCards.forEach(card => {
+            card.classList.remove('turned');
+          });
+        }, 1000);
+
+        // reset pickedCards array
+        memoryGame.pickedCards = [];
+
+        // update the score board
+        memoryGame.updateScore();
+
+        // check if the game finishes
+        memoryGame.checkIfFinished();
       }
     });
   });
 
-  // check if the game finishes
-  memoryGame.checkIfFinished();
+  // to-do: if game finishes, get a game over screen
 });

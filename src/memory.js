@@ -5,6 +5,8 @@ class MemoryGame {
     this.pickedCards = [];
     this.pairsClicked = 0;
     this.pairsGuessed = 0;
+
+    this.endGameScreen = document.getElementById('game-over');
   }
 
   // every time you create a new game, the order of the cards should change
@@ -23,15 +25,14 @@ class MemoryGame {
   }
 
   checkIfPair(card1, card2) {
-    // add 1 to pairsClicked property
-    this.pairsClicked += 1;
-
     // if the cards are the same also add 1 to pairsGuessed
     // return true or false depending on the result of comparing both cards
     if (card1 === card2) {
+      this.pairsClicked += 1;
       this.pairsGuessed += 1;
       return true;
-    } else {
+    } else if (card1 !== card2 && card2 !== undefined) {
+      this.pairsClicked += 1;
       return false;
     }
   }
@@ -53,8 +54,14 @@ class MemoryGame {
 
     // update the data in HTML
     clicked.innerText = this.pairsClicked;
-    guessed.innerTex = this.pairsGuessed;
+    guessed.innerText = this.pairsGuessed;
+  }
+
+  endGame() {
+    console.log('Test');
+    if (this.checkIfFinished()) {
+      console.log('the end');
+      this.endGameScreen.style.display = 'block';
+    }
   }
 }
-
-// ISSUE 2: pairs clicked are always 2 when should be 1

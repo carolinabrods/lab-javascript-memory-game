@@ -34,6 +34,17 @@ body {
   transform: rotateY(180deg);
 }
 
+.card.blocked {
+  pointer-events: none;
+}
+
+.card.blocked .front {
+  transform: rotateY(0deg);
+}
+.card.blocked .back {
+  transform: rotateY(180deg);
+}
+
 .card .back,
 .card .front {
   width: 71px;
@@ -87,4 +98,8 @@ p {
   font-weight: bolder;
   font-size: 20px;
   text-align: center;
+}
+
+#game-over {
+  display: none;
 }
