@@ -32,7 +32,7 @@ window.addEventListener('load', event => {
   event.preventDefault();
 
   // shuffle the cards
-  /* memoryGame.shuffleCards(); */
+  memoryGame.shuffleCards();
   console.log(memoryGame.cards);
 
   // generate HTML code for each card element
@@ -91,9 +91,6 @@ window.addEventListener('load', event => {
         // check if the game finishes
         memoryGame.endGame();
 
-        // ISSUE 1: the pairs guessed stay when found, but then are flipping too
-        // SOLVED
-
         // if cards are not the same, they flip again
       } else if (!checkFunction && memoryGame.pickedCards.length === 2) {
         setTimeout(() => {
@@ -107,12 +104,7 @@ window.addEventListener('load', event => {
 
         // update the score board
         memoryGame.updateScore();
-
-        // check if the game finishes
-        memoryGame.checkIfFinished();
       }
     });
   });
-
-  // to-do: if game finishes, get a game over screen
 });

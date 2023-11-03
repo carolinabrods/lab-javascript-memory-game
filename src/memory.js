@@ -58,9 +58,7 @@ class MemoryGame {
   }
 
   endGame() {
-    console.log('Test');
     if (this.checkIfFinished()) {
-      console.log('the end');
       this.endGameScreen.style.display = 'block';
     }
   }
